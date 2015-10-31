@@ -51,6 +51,15 @@ You can also decode tuples:
 3 > ErlangRuby::Decoder.perform(binary_data)
 => [:colours, :such, :as, [:orange, :blue], :are, :cool]
 ```
+## Supported Terms
+
+Erlang.rb supports the following erlang terms:
+
+| Erlang 	| Ruby   	|
+|--------	|--------	|
+| atom   	| symbol 	|
+| tuple  	| array  	|
+
 
 ## Development
 
