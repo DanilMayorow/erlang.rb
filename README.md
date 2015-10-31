@@ -20,7 +20,39 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Use `Decoder` to transform an Erlang term (in binary) to a Ruby term:
+
+```erlang
+1> Name = milton.
+milton
+2> term_to_binary(Name).
+<<131,100,0,6,109,105,108,116,111,110>>
+```
+
+Copy the binary value from the erlang shell to a ruby console:
+
+```ruby
+./bin/console
+1> binary_data = [131,100,0,6,109,105,108,116,111,110].pack("C*");1
+=> "\x83d\x00\x06milton"
+2 > ErlangRuby::Decoder.perform(binary_data)
+=> :milton
+```
+
+You can also decode tuples:
+```erlang
+1> T = term_to_binary({colours, such, as, {orange, blue}, are, cool}).
+<<131,104,6,100,0,7,99,111,108,111,117,114,115,100,0,4,
+  115,117,99,104,100,0,2,97,115,104,2,100,0,...>>
+```
+
+```ruby
+./bin/console
+1> binary_data = [131,104,6,100,0,7,99,111,108,111,117,114,115,100,0,4,115,117,99,104,100,0,2,97,115,104,2,100,0,6,111,114,97,110,103,101,100,0,4,98,108,117,101,100,0,3,97,114,101,100,0,4,99,111,111,108].pack("C*")
+=> "\x83h\x06d\x00\acoloursd\x00\x04suchd\x00\x02ash\x02d\x00\x06oranged\x00\x04blued\x00\x03ared\x00\x04cool"
+2 > ErlangRuby::Decoder.perform(binary_data)
+=> [:colours, :such, :as, [:orange, :blue], :are, :cool]
+```
 
 ## Development
 
