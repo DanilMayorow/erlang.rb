@@ -1,6 +1,6 @@
 module ErlangRuby
   module Terms
-    class Atom
+    class Symbol
       attr_accessor :value
       def initialize(content)
         self.value = content

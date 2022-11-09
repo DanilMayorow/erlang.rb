@@ -1,6 +1,6 @@
 module ErlangRuby
   module Terms
-    class Tuple
+    class Array
       attr_accessor :arity, :value
       def initialize(arity, value)
         self.arity = arity
@@ -14,15 +14,15 @@ module ErlangRuby
       end
 
       def self.build(data)
-        tuple_data = data.dup
-        arity, rest_of_data = Utils.read_first(tuple_data)
+        array_data = data.dup
+        arity, rest_of_data = Utils.read_first(array_data)
         content = []
         arity.times.map do
           term, rest_of_data = Terms.build(rest_of_data)
           content << term
         end
-        tuple = self.new(arity, content)
-        [tuple, rest_of_data]
+        array = self.new(arity, content)
+        [array, rest_of_data]
       end
     end
   end
