@@ -40,20 +40,20 @@ module ErlangRuby
 
     def self.build(data)
       term_data = data.dup
-      tag, rest_of_data = Utils.read_first(term_data)
+      tag, _ = Utils.read_first(term_data)
       case tag
-      when ATOM, ATOM_UTF8, S_ATOM_UTF8, ATOM_CACHE_REF
-        Terms::Symbol.build(rest_of_data)
+      when ATOM, S_ATOM, ATOM_UTF8, S_ATOM_UTF8
+        Terms::Symbol.build(term_data)
       when PORT, NEW_PORT, PID, NEW_PID,  REF, NEWER_REF
-        Terms::Symbol.build(rest_of_data)
+        Terms::Symbol.build(term_data)
       when S_TUPLE, L_TUPLE, LIST
-        Terms::Array.build(rest_of_data)
+        Terms::Array.build(term_data)
       when INTEGER, S_INTEGER, FLOAT, S_BIG, L_BIG, FLOAT
-        Terms::Number.build(rest_of_data)
+        Terms::Number.build(term_data)
       when STRING
-        Terms::String.build(rest_of_data)
+        Terms::String.build(term_data)
       when MAP
-        Terms::Hashe.build(rest_of_data)
+        Terms::Hashe.build(term_data)
       end
     end
   end
