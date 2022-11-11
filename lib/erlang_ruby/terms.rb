@@ -1,7 +1,7 @@
 require "erlang_ruby/terms/symbol"
 require "erlang_ruby/terms/array"
 require 'erlang_ruby/terms/string'
-require 'erlang_ruby/terms/hashe'
+require 'erlang_ruby/terms/hash'
 require 'erlang_ruby/terms/number'
 
 module ErlangRuby
@@ -16,9 +16,9 @@ module ErlangRuby
 
     S_INTEGER       = 97
     INTEGER         = 98
-    FLOAT           = 99
+    FLOAT           = 99   # depricated
     ATOM            = 100
-    REF             = 101 #depricated. see: ERL_NEW_REF
+    REF             = 101  # depricated. see: ERL_NEW_REF
     PORT            = 102
     PID             = 103
     S_TUPLE         = 104
@@ -29,31 +29,30 @@ module ErlangRuby
     BINARY          = 109
     S_BIG           = 110
     L_BIG           = 111
-    NEW_FUN	        = 112
-    EXPORT          = 113
+    NEW_FUN	        = 112  # refused
+    EXPORT          = 113  # refused
     NEW_REF         = 114
     S_ATOM          = 115
     MAP             = 116
-    FUN	            = 117 # removed
+    FUN	            = 117  # removed
     ATOM_UTF8       = 118
     S_ATOM_UTF8     = 119
-
     def self.build(data)
       term_data = data.dup
       tag, _ = Utils.read_first(term_data)
       case tag
       when ATOM, S_ATOM, ATOM_UTF8, S_ATOM_UTF8
         Terms::Symbol.build(term_data)
-      when PORT, NEW_PORT, PID, NEW_PID,  REF, NEWER_REF
-        Terms::Symbol.build(term_data)
+      when PORT, NEW_PORT, PID, NEW_PID,  REF, NEWER_REF, NEWER_REF
+        Terms::Id.build(term_data)
       when S_TUPLE, L_TUPLE, LIST
         Terms::Array.build(term_data)
-      when INTEGER, S_INTEGER, FLOAT, S_BIG, L_BIG, FLOAT
+      when INTEGER, S_INTEGER, S_BIG, L_BIG, NEW_FLOAT
         Terms::Number.build(term_data)
-      when STRING
+      when STRING, BINARY
         Terms::String.build(term_data)
       when MAP
-        Terms::Hashe.build(term_data)
+        Terms::Hash.build(term_data)
       end
     end
   end
