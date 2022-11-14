@@ -1,6 +1,6 @@
 module ErlangRuby
   module Terms
-    class Id
+    class Identifier
       attr_accessor :value
       def initialize(content)
         self.value = content
@@ -8,7 +8,7 @@ module ErlangRuby
 
       #Extend function to enable booleans and nil
       def decode
-        value.to_sym
+        value
       end
 
       def self.build(data)
@@ -41,12 +41,12 @@ module ErlangRuby
           raise "Undefined type of atom"
         end
 
-        id = self.new(node)
+        id = self.new(node.decode)
         [id, rest_of_data]
       end
 
       def self.get_data(data, len)
-        case len
+	case len
         when 1
           [data.byteslice(0, 1).unpack("C").first, data[1..-1]]
         when 2

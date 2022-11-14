@@ -1,6 +1,6 @@
-require "erlang_ruby/version"
-require "erlang_ruby/terms"
-require "erlang_ruby/utils"
+require_relative "erlang_ruby/version.rb"
+require_relative "erlang_ruby/terms.rb"
+require_relative "erlang_ruby/utils.rb"
 
 module ErlangRuby
   class Decoder

@@ -15,17 +15,18 @@ module ErlangRuby
         tag, rest_of_data = Utils.read_first(dup_data)
         case tag
         when STRING
-          length = dup_data.byteslice(0, 2).unpack("n").first
-          content = dup_data.byteslice(2, length).unpack("C*").first
+          length = rest_of_data.byteslice(0, 2).unpack("n").first
+          content = rest_of_data.byteslice(2, length).unpack("A*").first
+          str = self.new(content)
+          [str, rest_of_data[(length+2)..-1]]
         when BINARY
-          length = dup_data.byteslice(0, 4).unpack("N").first
-          content = dup_data.byteslice(4, length).unpack("A*").first
+          length = rest_of_data.byteslice(0, 4).unpack("N").first
+          content = rest_of_data.byteslice(4, length).unpack("A*").first
+          str = self.new(content)
+          [str, rest_of_data[(length+4)..-1]]
         else
           raise "Undefined type of atom"
-        end
-
-        str = self.new(content)
-        [str, rest_of_data[length..-1]]
+	end
       end
     end
   end

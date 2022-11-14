@@ -26,12 +26,12 @@ module ErlangRuby
         case tag
         when ATOM, ATOM_UTF8
           shift = 2
-          length = dup_data.byteslice(0, 2).unpack("n").first
-          content = dup_data.byteslice(2, length).unpack("A*").first
+          length = rest_of_data.byteslice(0, 2).unpack("n").first
+          content = rest_of_data.byteslice(2, length).unpack("A*").first
         when S_ATOM, S_ATOM_UTF8
           shift = 1
-          length = dup_data.byteslice(0, 1).unpack("C").first
-          content = dup_data.byteslice(1, length).unpack("A*").first
+          length = rest_of_data.byteslice(0, 1).unpack("C").first
+          content = rest_of_data.byteslice(1, length).unpack("A*").first
         else
           raise "Undefined type of atom"
         end

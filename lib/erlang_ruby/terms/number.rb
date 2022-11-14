@@ -53,5 +53,3 @@ module ErlangRuby
     end
   end
 end
-
-# INTEGER, S_INTEGER, FLOAT, S_BIG, L_BIG

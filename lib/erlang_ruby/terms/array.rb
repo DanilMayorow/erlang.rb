@@ -20,13 +20,16 @@ module ErlangRuby
         tag, rest_data = Utils.read_first(array_data)
         case tag
         when NIL
-          return [[], rest_data]
+          empty = self.new(0,[])
+          return [empty, rest_data]
         when S_TUPLE
           arity, rest_data = Utils.read_first(rest_data)
           arity.times.map do
             term, rest_data = Terms.build(rest_data)
             content << term
           end
+          tuple = self.new(arity, content)
+          [tuple, rest_data]
         when L_TUPLE, LIST
           arity = rest_data.byteslice(0, 4).unpack("N").first
           rest_data = rest_data.byteslice(4..-1)
